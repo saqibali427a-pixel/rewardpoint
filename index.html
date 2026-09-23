@@ -1,3 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shorty App</title>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-storage-compat.js"></script>
+
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#000;color:#fff;font-family:Arial}
+button{cursor:pointer;border:0;border-radius:10px;padding:12px;font-weight:bold}
+#login{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+.box{width:100%;max-width:400px;background:#171717;padding:25px;border-radius:20px;text-align:center}
+input{width:100%;padding:14px;margin:7px 0;border-radius:10px;border:0}
+.btn{width:100%;margin-top:10px}
+.google{background:white;color:#111}
+.login{background:#ff0050;color:white}
+#app{display:none}
+header{position:fixed;top:0;left:0;right:0;height:55px;background:#000;z-index:5;text-align:center;padding:18px}
+.feed{padding-top:55px;padding-bottom:70px}
+.video{height:calc(100vh - 125px);position:relative;background:#111}
+.video video{width:100%;height:100%;object-fit:cover}
+.info{position:absolute;bottom:20px;left:15px}
+.actions{position:absolute;right:12px;bottom:70px;display:flex;flex-direction:column;gap:10px}
+.actions button{width:52px;height:52px;border-radius:50%;font-size:20px;padding:0}
+nav{position:fixed;bottom:0;left:0;right:0;height:65px;background:#111;z-index:10;display:flex;justify-content:space-around}
+nav button{background:none;color:white}
+.page{display:none;padding:80px 20px 90px}
+progress{width:100%;margin-top:15px}
+</style>
+</head>
+
+<body>
+
+<div id="login">
+<div class="box">
+<h1>🎬 Shorty</h1>
+<p>Login to continue</p>
+
+<input id="email" type="email" placeholder="Email">
+<input id="password" type="password" placeholder="Password">
+
+<button class="btn login" onclick="emailLogin()">Login / Sign Up</button>
+<button class="btn google" onclick="googleLogin()">🔵 Continue with Google</button>
+
+<p id="msg"></p>
+</div>
+</div>
+
+<div id="app">
+
+<header>Following &nbsp; | &nbsp; For You</header>
+
+<div id="home" class="feed"></div>
+
+<div id="upload" class="page">
+<div class="box">
+<h2>📤 Upload Video</h2>
+<input id="file" type="file" accept="video/*">
+<button class="login btn" onclick="uploadVideo()">Upload Video</button>
+<progress id="progress" value="0" max="100"></progress>
+<p id="uploadMsg"></p>
+</div>
+</div>
+
+<div id="profile" class="page">
+<div class="box">
+<h2>👤 Profile</h2>
+<h3 id="name"></h3>
+<p id="userEmail"></p>
+<hr>
+<p>Your Shorty ID</p>
+<h2 id="shortyID"></h2>
+<button class="login btn" onclick="logout()">Logout</button>
+</div>
+</div>
+
+<nav>
+<button onclick="page('home')">🏠<br>Home</button>
+<button onclick="page('upload')">➕<br>Upload</button>
+<button onclick="page('profile')">👤<br>Profile</button>
+</nav>
+
+</div>
+
+<script>
 const firebaseConfig = {
   apiKey: "AIzaSyDH1tbp7qpBjxecFCjFfbC1lPnLd_C-fmk",
   authDomain: "shorty-app-ddc31.firebaseapp.com",
@@ -7,3 +98,211 @@ const firebaseConfig = {
   appId: "1:535422060118:web:fd456d818dfed23340ddf7",
   measurementId: "G-T61VGQCH9M"
 };
+
+firebase.initializeApp(firebaseConfig);
+
+const auth = firebase.auth();
+const db = firebase.firestore();
+const storage = firebase.storage();
+
+auth.onAuthStateChanged(user => {
+  if(user){
+    document.getElementById("login").style.display="none";
+    document.getElementById("app").style.display="block";
+
+    document.getElementById("name").innerText =
+      user.displayName || "Shorty User";
+
+    document.getElementById("userEmail").innerText =
+      user.email || "";
+
+    document.getElementById("shortyID").innerText =
+      "SH" + user.uid.substring(0,8).toUpperCase();
+
+    loadVideos();
+  }else{
+    document.getElementById("login").style.display="flex";
+    document.getElementById("app").style.display="none";
+  }
+});
+
+function googleLogin(){
+  const provider = new firebase.auth.GoogleAuthProvider();
+
+  auth.signInWithPopup(provider)
+  .catch(e=>{
+    document.getElementById("msg").innerText=e.message;
+  });
+}
+
+function emailLogin(){
+  const email=document.getElementById("email").value;
+  const password=document.getElementById("password").value;
+
+  if(!email || !password){
+    document.getElementById("msg").innerText="Email اور Password لکھیں";
+    return;
+  }
+
+  auth.signInWithEmailAndPassword(email,password)
+  .catch(()=>{
+    auth.createUserWithEmailAndPassword(email,password)
+    .catch(e=>{
+      document.getElementById("msg").innerText=e.message;
+    });
+  });
+}
+
+async function uploadVideo(){
+
+  const user=auth.currentUser;
+  const file=document.getElementById("file").files[0];
+
+  if(!file){
+    alert("Video منتخب کریں");
+    return;
+  }
+
+  const msg=document.getElementById("uploadMsg");
+  const progress=document.getElementById("progress");
+
+  msg.innerText="Uploading...";
+
+  const ref=storage.ref(
+    "videos/"+user.uid+"/"+Date.now()+"_"+file.name
+  );
+
+  const task=ref.put(file);
+
+  task.on("state_changed",
+
+    snapshot=>{
+      progress.value =
+      (snapshot.bytesTransferred /
+       snapshot.totalBytes)*100;
+    },
+
+    error=>{
+      msg.innerText="Upload Error: "+error.message;
+    },
+
+    async ()=>{
+      const url=await task.snapshot.ref.getDownloadURL();
+
+      await db.collection("videos").add({
+        videoUrl:url,
+        userId:user.uid,
+        userName:user.displayName || "Shorty User",
+        likes:0,
+        createdAt:firebase.firestore.FieldValue.serverTimestamp()
+      });
+
+      msg.innerText="✅ Video Uploaded!";
+      loadVideos();
+    }
+  );
+}
+
+async function loadVideos(){
+
+  const home=document.getElementById("home");
+
+  try{
+    const snap=await db.collection("videos")
+      .orderBy("createdAt","desc")
+      .limit(20)
+      .get();
+
+    home.innerHTML="";
+
+    if(snap.empty){
+      home.innerHTML="<p style='padding:30px'>ابھی کوئی video نہیں ہے۔</p>";
+      return;
+    }
+
+    snap.forEach(doc=>{
+
+      const v=doc.data();
+
+      home.innerHTML += `
+      <div class="video">
+
+        <video src="${v.videoUrl}"
+               controls
+               loop
+               playsinline></video>
+
+        <div class="info">
+          <b>@${v.userName || "Shorty User"}</b>
+          <p>🎬 Shorty Video</p>
+        </div>
+
+        <div class="actions">
+          <button onclick="likeVideo('${doc.id}')">❤️</button>
+          <button onclick="comment()">💬</button>
+          <button onclick="share('${v.videoUrl}')">↗️</button>
+          <button onclick="follow()">➕</button>
+        </div>
+
+      </div>`;
+    });
+
+  }catch(e){
+    home.innerHTML=
+      "<p style='padding:30px'>Videos ابھی load نہیں ہوئیں۔</p>";
+  }
+}
+
+async function likeVideo(id){
+
+  await db.collection("videos")
+    .doc(id)
+    .update({
+      likes:firebase.firestore.FieldValue.increment(1)
+    });
+
+  alert("❤️ Like");
+}
+
+function comment(){
+  const text=prompt("Comment لکھیں:");
+  if(text) alert("Comment added");
+}
+
+function follow(){
+  alert("Follow");
+}
+
+function share(url){
+
+  if(navigator.share){
+    navigator.share({
+      title:"Shorty Video",
+      url:url
+    });
+  }else{
+    navigator.clipboard.writeText(url);
+    alert("Link copied");
+  }
+}
+
+function page(name){
+
+  document.getElementById("home").style.display="none";
+  document.getElementById("upload").style.display="none";
+  document.getElementById("profile").style.display="none";
+
+  document.getElementById(name).style.display="block";
+
+  if(name==="home"){
+    loadVideos();
+  }
+}
+
+function logout(){
+  auth.signOut();
+}
+</script>
+
+</body>
+</html>
