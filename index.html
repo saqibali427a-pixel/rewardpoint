@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Shorty - Video App</title>
+<title>Shorty Video App</title>
 
 <style>
 *{
@@ -13,21 +13,23 @@
   font-family:Arial,sans-serif;
 }
 
-body{
+html,body{
   background:#000;
-  color:white;
+  color:#fff;
+}
+
+body{
   max-width:500px;
   margin:auto;
-  overflow-x:hidden;
 }
 
 .app{
+  background:#000;
   min-height:100vh;
-  background:#111;
-  position:relative;
+  padding-bottom:65px;
 }
 
-/* Top bar */
+/* TOP */
 .top{
   position:fixed;
   top:0;
@@ -36,24 +38,24 @@ body{
   width:100%;
   max-width:500px;
   height:58px;
-  z-index:20;
+  z-index:50;
   display:flex;
-  align-items:center;
   justify-content:center;
+  align-items:center;
+  gap:16px;
   background:linear-gradient(#000,transparent);
 }
 
-.top span{
-  margin:0 10px;
+.top button{
+  border:0;
+  background:none;
+  color:#aaa;
   font-size:15px;
   font-weight:bold;
-  opacity:.7;
 }
 
-.top .active{
-  opacity:1;
-  border-bottom:2px solid white;
-  padding-bottom:6px;
+.top button.active{
+  color:#fff;
 }
 
 .search{
@@ -62,58 +64,79 @@ body{
   font-size:23px;
 }
 
-/* Video */
+/* VIDEO */
 .video{
   height:calc(100vh - 65px);
   min-height:600px;
   position:relative;
+  background:#111;
   overflow:hidden;
-  margin-bottom:2px;
 }
 
-.video img{
+.video video{
   width:100%;
   height:100%;
   object-fit:cover;
 }
 
+.video:after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(
+    transparent 55%,
+    rgba(0,0,0,.75)
+  );
+  pointer-events:none;
+}
+
+/* INFO */
 .info{
   position:absolute;
-  bottom:25px;
   left:15px;
-  width:75%;
+  bottom:25px;
+  width:72%;
+  z-index:5;
   text-shadow:0 1px 4px #000;
 }
 
 .info h3{
-  margin-bottom:8px;
+  font-size:16px;
+  margin-bottom:9px;
 }
 
 .info p{
   font-size:14px;
+  margin-top:5px;
 }
 
-/* Buttons */
+/* ACTIONS */
 .actions{
   position:absolute;
   right:12px;
-  bottom:55px;
+  bottom:45px;
+  z-index:10;
   display:flex;
   flex-direction:column;
-  gap:20px;
+  gap:18px;
   text-align:center;
 }
 
-.action{
+.action button{
+  border:0;
+  background:none;
+  color:white;
   font-size:27px;
+  cursor:pointer;
 }
 
 .action small{
   display:block;
-  font-size:12px;
+  font-size:11px;
+  margin-top:2px;
 }
 
-/* Bottom */
+/* BOTTOM */
 .bottom{
   position:fixed;
   bottom:0;
@@ -122,16 +145,18 @@ body{
   width:100%;
   max-width:500px;
   height:65px;
-  background:#090909;
+  z-index:100;
+  background:#080808;
+  border-top:1px solid #333;
   display:flex;
   justify-content:space-around;
   align-items:center;
-  z-index:30;
-  border-top:1px solid #333;
 }
 
-.bottom div{
-  text-align:center;
+.bottom button{
+  background:none;
+  border:0;
+  color:white;
   font-size:11px;
 }
 
@@ -141,28 +166,27 @@ body{
   margin-bottom:3px;
 }
 
-.upload{
-  background:white;
-  color:black;
-  padding:7px 13px;
+.plus{
+  font-size:26px!important;
+  background:white!important;
+  color:#000!important;
   border-radius:10px;
-  font-size:22px !important;
+  padding:2px 13px;
 }
 
-.notice{
+/* MESSAGE */
+.toast{
   position:fixed;
-  top:60px;
   left:50%;
+  bottom:80px;
   transform:translateX(-50%);
-  max-width:450px;
-  width:90%;
-  background:#222;
-  padding:8px;
-  border-radius:8px;
-  text-align:center;
-  font-size:11px;
-  z-index:25;
-  opacity:.85;
+  background:#fff;
+  color:#000;
+  padding:10px 18px;
+  border-radius:20px;
+  display:none;
+  z-index:200;
+  font-size:13px;
 }
 </style>
 </head>
@@ -171,121 +195,214 @@ body{
 
 <div class="app">
 
+  <!-- TOP -->
   <div class="top">
-    <span>Following</span>
-    <span class="active">For You</span>
-    <span class="search">🔍</span>
+    <button onclick="showMessage('Following')">Following</button>
+    <button class="active">For You</button>
+    <button class="search" onclick="showMessage('Search coming soon 🔍')">🔍</button>
   </div>
 
-  <div class="notice">
-    Shorty • Short Video Prototype
-  </div>
 
-  <!-- Video 1 -->
-  <div class="video">
-    <img src="https://images.unsplash.com/photo-1573865526739-10659fec78a5?auto=format&fit=crop&w=900&q=80">
-    
+  <!-- VIDEO 1 -->
+  <section class="video">
+    <video
+      src="https://cdn.pixabay.com/video/2020/05/24/40120-424876900_large.mp4"
+      autoplay
+      muted
+      loop
+      playsinline>
+    </video>
+
     <div class="info">
       <h3>@CartoonWorld</h3>
-      <p>🐱 Funny cartoon moment! Watch till the end 😂</p>
+      <p>😂 Funny short video</p>
       <p>🎵 Original sound</p>
     </div>
 
     <div class="actions">
-      <div class="action">❤️<small>1.2K</small></div>
-      <div class="action">💬<small>86</small></div>
-      <div class="action">↗️<small>Share</small></div>
-      <div class="action">🔖<small>Save</small></div>
-    </div>
-  </div>
+      <div class="action">
+        <button onclick="like(this)">❤️</button>
+        <small>1.2K</small>
+      </div>
 
-  <!-- Video 2 -->
-  <div class="video">
-    <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=900&q=80">
-    
+      <div class="action">
+        <button onclick="showMessage('Comments coming soon 💬')">💬</button>
+        <small>86</small>
+      </div>
+
+      <div class="action">
+        <button onclick="showMessage('Share button clicked ↗️')">↗️</button>
+        <small>Share</small>
+      </div>
+
+      <div class="action">
+        <button onclick="showMessage('Saved 🔖')">🔖</button>
+        <small>Save</small>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- VIDEO 2 -->
+  <section class="video">
+    <video
+      src="https://cdn.pixabay.com/video/2020/06/24/42825-435570630_large.mp4"
+      autoplay
+      muted
+      loop
+      playsinline>
+    </video>
+
     <div class="info">
       <h3>@FunVideos</h3>
-      <p>🎮 Gaming time! Who can win this challenge?</p>
+      <p>🎮 Gaming & fun</p>
       <p>🎵 Original sound</p>
     </div>
 
     <div class="actions">
-      <div class="action">❤️<small>854</small></div>
-      <div class="action">💬<small>42</small></div>
-      <div class="action">↗️<small>Share</small></div>
-      <div class="action">🔖<small>Save</small></div>
-    </div>
-  </div>
+      <div class="action">
+        <button onclick="like(this)">❤️</button>
+        <small>854</small>
+      </div>
 
-  <!-- Video 3 -->
-  <div class="video">
-    <img src="https://images.unsplash.com/photo-1535268647677-300dbf3d78d1?auto=format&fit=crop&w=900&q=80">
-    
+      <div class="action">
+        <button onclick="showMessage('Comments coming soon 💬')">💬</button>
+        <small>42</small>
+      </div>
+
+      <div class="action">
+        <button onclick="showMessage('Share button clicked ↗️')">↗️</button>
+        <small>Share</small>
+      </div>
+
+      <div class="action">
+        <button onclick="showMessage('Saved 🔖')">🔖</button>
+        <small>Save</small>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- VIDEO 3 -->
+  <section class="video">
+    <video
+      src="https://cdn.pixabay.com/video/2020/05/29/40375-425819564_large.mp4"
+      autoplay
+      muted
+      loop
+      playsinline>
+    </video>
+
     <div class="info">
-      <h3>@KidsCartoon</h3>
-      <p>🥕 Funny vegetable cartoon adventure!</p>
+      <h3>@KidsFun</h3>
+      <p>🥕 Funny cartoon adventure</p>
       <p>🎵 Original sound</p>
     </div>
 
     <div class="actions">
-      <div class="action">❤️<small>2.4K</small></div>
-      <div class="action">💬<small>120</small></div>
-      <div class="action">↗️<small>Share</small></div>
-      <div class="action">🔖<small>Save</small></div>
-    </div>
-  </div>
+      <div class="action">
+        <button onclick="like(this)">❤️</button>
+        <small>2.4K</small>
+      </div>
 
-  <!-- Bottom Navigation -->
+      <div class="action">
+        <button onclick="showMessage('Comments coming soon 💬')">💬</button>
+        <small>120</small>
+      </div>
+
+      <div class="action">
+        <button onclick="showMessage('Share button clicked ↗️')">↗️</button>
+        <small>Share</small>
+      </div>
+
+      <div class="action">
+        <button onclick="showMessage('Saved 🔖')">🔖</button>
+        <small>Save</small>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- BOTTOM -->
   <div class="bottom">
-    <div onclick="home()">
+
+    <button onclick="home()">
       <b>⌂</b>
       Home
-    </div>
+    </button>
 
-    <div onclick="searchApp()">
+    <button onclick="showMessage('Search coming soon 🔍')">
       <b>🔍</b>
       Search
-    </div>
+    </button>
 
-    <div onclick="uploadVideo()">
-      <b class="upload">＋</b>
+    <button onclick="showMessage('Video Upload coming next 🎥')">
+      <b class="plus">＋</b>
       Upload
-    </div>
+    </button>
 
-    <div onclick="messages()">
+    <button onclick="showMessage('Messages coming next 💬')">
       <b>💬</b>
       Messages
-    </div>
+    </button>
 
-    <div onclick="profile()">
+    <button onclick="showMessage('Profile coming next 👤')">
       <b>👤</b>
       Profile
-    </div>
+    </button>
+
   </div>
 
 </div>
 
+<div class="toast" id="toast"></div>
+
 <script>
 
-function uploadVideo(){
-  alert("Video Upload\n\nNext step: we will add real video upload here.");
+function showMessage(text){
+  const toast=document.getElementById("toast");
+  toast.innerText=text;
+  toast.style.display="block";
+
+  setTimeout(()=>{
+    toast.style.display="none";
+  },1800);
 }
 
-function messages(){
-  alert("Messages\n\nNext step: we will build user-to-user chat here.");
-}
-
-function profile(){
-  alert("Profile\n\nNext step: we will create user profiles here.");
-}
-
-function searchApp(){
-  alert("Search\n\nNext step: we will add video and user search.");
+function like(button){
+  if(button.innerText==="❤️"){
+    button.innerText="❤️";
+    showMessage("Liked ❤️");
+  }
 }
 
 function home(){
-  window.scrollTo({top:0,behavior:"smooth"});
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
 }
+
+/* Pause videos when they are not visible */
+const videos=document.querySelectorAll("video");
+
+const observer=new IntersectionObserver((entries)=>{
+  entries.forEach(entry=>{
+    const video=entry.target;
+
+    if(entry.isIntersecting){
+      video.play().catch(()=>{});
+    }else{
+      video.pause();
+    }
+  });
+},{
+  threshold:.6
+});
+
+videos.forEach(video=>{
+  observer.observe(video);
+});
 
 </script>
 
