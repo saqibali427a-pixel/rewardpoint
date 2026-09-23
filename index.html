@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RewardPoint - Demo</title>
+
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+  font-family:Arial,sans-serif;
+}
+
+body{
+  background:#f2f4f8;
+  color:#222;
+  padding-bottom:75px;
+}
+
+.header{
+  background:#111827;
+  color:white;
+  padding:20px;
+  text-align:center;
+}
+
+.header h1{
+  font-size:25px;
+}
+
+.warning{
+  background:#facc15;
+  color:#111;
+  padding:7px;
+  margin-top:10px;
+  border-radius:8px;
+  font-weight:bold;
+  font-size:13px;
+}
+
+.container{
+  max-width:600px;
+  margin:auto;
+  padding:15px;
+}
+
+.card{
+  background:white;
+  padding:18px;
+  margin-bottom:15px;
+  border-radius:15px;
+  box-shadow:0 3px 12px rgba(0,0,0,.08);
+}
+
+.balance{
+  background:#2563eb;
+  color:white;
+  text-align:center;
+}
+
+.balance h2{
+  font-size:15px;
+}
+
+.balance .money{
+  font-size:32px;
+  font-weight:bold;
+  margin-top:8px;
+}
+
+button{
+  width:100%;
+  padding:13px;
+  border:0;
+  border-radius:10px;
+  background:#2563eb;
+  color:white;
+  font-size:16px;
+  font-weight:bold;
+  margin-top:10px;
+  cursor:pointer;
+}
+
+button:active{
+  transform:scale(.98);
+}
+
+.task{
+  border:1px solid #ddd;
+  padding:14px;
+  border-radius:12px;
+  margin-top:10px;
+}
+
+.task h3{
+  margin-bottom:5px;
+}
+
+.coin{
+  width:100px;
+  height:100px;
+  border-radius:50%;
+  background:#facc15;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:45px;
+  margin:20px auto;
+  cursor:pointer;
+  box-shadow:0 5px 15px rgba(0,0,0,.2);
+}
+
+input{
+  width:100%;
+  padding:12px;
+  border:1px solid #ccc;
+  border-radius:8px;
+  margin-top:8px;
+}
+
+.nav{
+  position:fixed;
+  bottom:0;
+  left:0;
+  right:0;
+  background:white;
+  border-top:1px solid #ddd;
+  display:flex;
+  justify-content:space-around;
+  padding:10px 5px;
+  z-index:10;
+}
+
+.nav button{
+  background:white;
+  color:#333;
+  margin:0;
+  padding:8px 3px;
+  font-size:12px;
+  width:24%;
+}
+
+.small{
+  font-size:13px;
+  color:#666;
+  line-height:1.5;
+}
+
+.leader{
+  display:flex;
+  justify-content:space-between;
+  padding:10px 0;
+  border-bottom:1px solid #eee;
+}
+
+.demo{
+  background:#f3f4f6;
+  padding:15px;
+  border-radius:10px;
+  text-align:center;
+  margin-top:10px;
+}
+
+footer{
+  text-align:center;
+  padding:20px;
+  font-size:12px;
+  color:#777;
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">
+  <h1>💎 RewardPoint</h1>
+  <div class="warning">⚠️ NO REAL MONEY — DEMO APP ONLY</div>
+</div>
+
+<div class="container">
+
+<section id="home">
+
+<div class="card balance">
+  <h2>Demo Balance</h2>
+  <div class="money">PKR <span id="balance">0</span></div>
+  <p style="margin-top:8px;">Demo Points Balance</p>
+</div>
+
+<div class="card">
+  <h2>👋 Welcome!</h2>
+  <p style="margin-top:8px;">Complete demo tasks and collect points.</p>
+  <p class="small" style="margin-top:8px;">
+    These points have no cash value and cannot be withdrawn.
+  </p>
+</div>
+
+<div class="card">
+  <h2>📢 Demo Advertisement</h2>
+  <div class="demo">
+    <h3>🎮 GAME AD</h3>
+    <p class="small">This is a demonstration advertisement.</p>
+    <button onclick="watchAd()">▶ Watch Demo Ad</button>
+  </div>
+</div>
+
+<div class="card">
+  <h2>🏆 Tap Reward Game</h2>
+  <p class="small">Tap the coin to earn demo points.</p>
+
+  <div class="coin" onclick="tapGame()">🪙</div>
+
+  <p style="text-align:center;">
+    Taps: <b id="taps">0</b>
+  </p>
+</div>
+
+</section>
+
+
+<section id="tasks">
+
+<div class="card">
+  <h2>📋 Demo Tasks</h2>
+
+  <div class="task">
+    <h3>🎁 Daily Reward</h3>
+    <p class="small">Claim your daily demo reward.</p>
+    <button onclick="dailyReward()">Claim +50</button>
+  </div>
+
+  <div class="task">
+    <h3>🖱️ Click Task</h3>
+    <p class="small">Complete a simple demo click task.</p>
+    <button onclick="clickTask()">Complete +20</button>
+  </div>
+
+  <div class="task">
+    <h3>📺 Watch Demo Ad</h3>
+    <p class="small">Watch a simulated advertisement.</p>
+    <button onclick="watchAd()">Watch +30</button>
+  </div>
+
+  <div class="task">
+    <h3>✅ Complete Demo Task</h3>
+    <p class="small">Complete this sample task.</p>
+    <button onclick="completeTask()">Complete +40</button>
+  </div>
+
+</div>
+
+</section>
+
+
+<section id="rewards">
+
+<div class="card">
+  <h2>🏆 Leaderboard</h2>
+
+  <div class="leader">
+    <span>🥇 Ali</span>
+    <b>950</b>
+  </div>
+
+  <div class="leader">
+    <span>🥈 Ahmed</span>
+    <b>820</b>
+  </div>
+
+  <div class="leader">
+    <span>🥉 Usman</span>
+    <b>710</b>
+  </div>
+
+  <div class="leader">
+    <span>4️⃣ Hamza</span>
+    <b>650</b>
+  </div>
+
+  <p class="small" style="margin-top:12px;">
+    Demo leaderboard only.
+  </p>
+</div>
+
+
+<div class="card">
+  <h2>💸 Demo Withdrawal</h2>
+
+  <p class="small">
+    This is only a demonstration. No money will be sent.
+  </p>
+
+  <input id="mobile" placeholder="Demo mobile number">
+
+  <input id="amount" type="number" placeholder="Demo amount">
+
+  <button onclick="withdraw()">Request Demo Withdrawal</button>
+
+  <p id="withdrawMsg" class="small" style="margin-top:10px;"></p>
+</div>
+
+</section>
+
+
+<section id="profile">
+
+<div class="card">
+  <h2>👤 Profile</h2>
+
+  <p style="margin-top:10px;"><b>Name:</b> Demo User</p>
+  <p style="margin-top:8px;"><b>User ID:</b> RP10001</p>
+  <p style="margin-top:8px;"><b>Status:</b> Demo Account</p>
+
+  <button onclick="contact()">📩 Contact Support</button>
+</div>
+
+<div class="card">
+  <h2>⚠️ Important</h2>
+  <p class="small">
+    RewardPoint is a demonstration website.
+    It does not process real payments, does not send money,
+    and the displayed points have no real-world cash value.
+  </p>
+</div>
+
+</section>
+
+<footer>
+  RewardPoint © 2026<br>
+  NO REAL MONEY • DEMO ONLY
+</footer>
+
+</div>
+
+
+<div class="nav">
+  <button onclick="showSection('home')">🏠 Home</button>
+  <button onclick="showSection('tasks')">📋 Tasks</button>
+  <button onclick="showSection('rewards')">🏆 Rewards</button>
+  <button onclick="showSection('profile')">👤 Profile</button>
+</div>
+
+
+<script>
+
+let balance = Number(localStorage.getItem("rewardBalance")) || 0;
+let taps = Number(localStorage.getItem("rewardTaps")) || 0;
+
+document.getElementById("balance").innerText = balance;
+document.getElementById("taps").innerText = taps;
+
+
+function save(){
+  localStorage.setItem("rewardBalance", balance);
+  localStorage.setItem("rewardTaps", taps);
+
+  document.getElementById("balance").innerText = balance;
+  document.getElementById("taps").innerText = taps;
+}
+
+
+function addPoints(points, message){
+  balance += points;
+  save();
+  alert(message + " +" + points + " demo points");
+}
+
+
+function dailyReward(){
+  addPoints(50, "Daily demo reward!");
+}
+
+
+function clickTask(){
+  addPoints(20, "Click task completed!");
+}
+
+
+function watchAd(){
+  addPoints(30, "Demo advertisement completed!");
+}
+
+
+function completeTask(){
+  addPoints(40, "Demo task completed!");
+}
+
+
+function tapGame(){
+  taps++;
+  balance += 1;
+  save();
+}
+
+
+function withdraw(){
+
+  const mobile = document.getElementById("mobile").value;
+  const amount = document.getElementById("amount").value;
+
+  if(!mobile || !amount){
+    document.getElementById("withdrawMsg").innerText =
+    "Please enter demo mobile number and demo amount.";
+    return;
+  }
+
+  document.getElementById("withdrawMsg").innerText =
+  "✅ Demo withdrawal request created. No real money was sent.";
+}
+
+
+function contact(){
+
+  alert(
+    "Demo Support\n\n" +
+    "This is a demo application.\n" +
+    "No real payment support is available."
+  );
+
+}
+
+
+function showSection(id){
+
+  document.getElementById(id).scrollIntoView({
+    behavior:"smooth"
+  });
+
+}
+
+</script>
+
+</body>
+</html>
