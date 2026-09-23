@@ -3,259 +3,55 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Shorty Video App</title>
+<title>Shorty App</title>
 
 <style>
-*{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
-  font-family:Arial,sans-serif;
+*{box-sizing:border-box;margin:0;padding:0;font-family:Arial,sans-serif}
+body{background:#000;color:#fff}
+.app{max-width:500px;margin:auto;min-height:100vh;background:#111}
+header{padding:20px;text-align:center;font-size:24px;font-weight:bold}
+.login{padding:25px}
+.login h2{text-align:center;margin:25px 0}
+input{
+ width:100%;padding:14px;margin:8px 0;
+ border:0;border-radius:8px;
 }
-
-body{
-  background:#000;
-  color:#fff;
-  overflow:hidden;
-}
-
-.app{
-  height:100vh;
-  width:100%;
-  max-width:500px;
-  margin:auto;
-  position:relative;
-  background:#111;
-}
-
-.top{
-  position:absolute;
-  top:0;
-  left:0;
-  right:0;
-  z-index:20;
-  display:flex;
-  justify-content:center;
-  gap:25px;
-  padding:18px 10px;
-  background:linear-gradient(#0009,transparent);
-}
-
-.top span{
-  font-size:16px;
-  font-weight:bold;
-}
-
-.active{
-  border-bottom:2px solid white;
-  padding-bottom:5px;
-}
-
-.feed{
-  height:100vh;
-  overflow-y:auto;
-  scroll-snap-type:y mandatory;
-}
-
-.video-card{
-  height:100vh;
-  position:relative;
-  scroll-snap-align:start;
-  background:#222;
-}
-
-.video{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-}
-
-.info{
-  position:absolute;
-  left:12px;
-  bottom:85px;
-  width:75%;
-  text-shadow:0 1px 3px #000;
-}
-
-.username{
-  font-size:18px;
-  font-weight:bold;
-  margin-bottom:8px;
-}
-
-.caption{
-  font-size:15px;
-}
-
-.follow-btn{
-  background:#ff0050;
-  color:white;
-  border:0;
-  border-radius:5px;
-  padding:5px 12px;
-  margin-left:7px;
-  font-weight:bold;
-}
-
-.actions{
-  position:absolute;
-  right:10px;
-  bottom:90px;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  gap:17px;
-}
-
-.action{
-  text-align:center;
-  cursor:pointer;
-  font-size:27px;
-}
-
-.action small{
-  display:block;
-  font-size:12px;
-  margin-top:3px;
-}
-
-.profile-pic{
-  width:48px;
-  height:48px;
-  border-radius:50%;
-  background:#555;
-  border:2px solid white;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:20px;
-}
-
-.bottom{
-  position:absolute;
-  bottom:0;
-  left:0;
-  right:0;
-  height:65px;
-  z-index:30;
-  display:flex;
-  justify-content:space-around;
-  align-items:center;
-  background:#080808;
-}
-
-.nav{
-  text-align:center;
-  font-size:12px;
-  cursor:pointer;
-}
-
-.nav div{
-  font-size:23px;
-  margin-bottom:3px;
-}
-
-.upload{
-  background:white;
-  color:#000;
-  padding:5px 12px;
-  border-radius:8px;
-  font-size:24px;
-}
-
-.panel{
-  display:none;
-  position:absolute;
-  inset:0;
-  z-index:50;
-  background:#111;
-  padding:70px 15px 80px;
-  overflow:auto;
-}
-
-.panel h2{
-  margin-bottom:20px;
-}
-
-.close{
-  position:absolute;
-  right:15px;
-  top:18px;
-  font-size:25px;
-  cursor:pointer;
-}
-
-.search-box,
-.comment-input,
-.message-input{
-  width:100%;
-  padding:13px;
-  border:0;
-  border-radius:8px;
-  margin-bottom:12px;
-}
-
 button{
-  cursor:pointer;
+ width:100%;padding:14px;margin:8px 0;
+ border:0;border-radius:8px;
+ font-weight:bold;cursor:pointer;
 }
-
-.send-btn{
-  padding:10px 18px;
-  border:0;
-  border-radius:8px;
-  background:#ff0050;
-  color:#fff;
-}
-
-.comment{
-  padding:12px;
-  border-bottom:1px solid #333;
-}
-
+.google{background:#fff;color:#111}
+.phone{background:#168cff;color:#fff}
+.email{background:#ff0050;color:#fff}
+.divider{text-align:center;margin:15px;color:#aaa}
+#appScreen{display:none}
 .profile{
-  text-align:center;
-  padding-top:20px;
+ text-align:center;padding:30px 15px
 }
-
-.big-profile{
-  width:90px;
-  height:90px;
-  border-radius:50%;
-  background:#444;
-  margin:auto;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:40px;
+.avatar{
+ width:90px;height:90px;border-radius:50%;
+ background:#444;margin:auto;
+ display:flex;align-items:center;justify-content:center;
+ font-size:40px
 }
-
-.stat{
-  display:inline-block;
-  margin:20px 10px;
-  font-weight:bold;
+.stats{
+ display:flex;justify-content:space-around;
+ margin:25px 0
 }
-
-.upload-area{
-  border:2px dashed #777;
-  padding:35px 15px;
-  text-align:center;
-  border-radius:12px;
-  margin-top:20px;
+.stat{text-align:center}
+.nav{
+ position:fixed;bottom:0;left:50%;
+ transform:translateX(-50%);
+ max-width:500px;width:100%;
+ background:#080808;
+ display:flex;justify-content:space-around;
+ padding:15px
 }
-
-.toast{
-  position:absolute;
-  bottom:75px;
-  left:50%;
-  transform:translateX(-50%);
-  background:#fff;
-  color:#000;
-  padding:10px 18px;
-  border-radius:20px;
-  display:none;
-  z-index:100;
-  white-space:nowrap;
+.nav div{text-align:center}
+.message{
+ background:#222;padding:20px;border-radius:10px;
+ margin-top:15px
 }
 </style>
 </head>
@@ -264,580 +60,158 @@ button{
 
 <div class="app">
 
-<!-- TOP -->
-<div class="top">
-  <span>Following</span>
-  <span class="active">For You</span>
-  <span onclick="openPanel('searchPanel')">🔍</span>
-</div>
+<header>🎵 Shorty</header>
 
-<!-- VIDEO FEED -->
-<div class="feed" id="feed">
+<!-- LOGIN -->
+<div class="login" id="loginScreen">
 
-  <div class="video-card">
-    <video class="video" loop muted playsinline
-      src="video1.mp4"></video>
+<h2>Welcome to Shorty</h2>
 
-    <div class="info">
-      <div class="username">
-        @saqib_ali
-        <button class="follow-btn" onclick="follow(this)">Follow</button>
-      </div>
-      <div class="caption">My first video 🔥 #shorty</div>
-    </div>
+<button class="google" onclick="googleLogin()">
+🔵 Continue with Google
+</button>
 
-    <div class="actions">
-      <div class="profile-pic">👤</div>
+<button class="phone" onclick="phoneLogin()">
+📱 Continue with Phone
+</button>
 
-      <div class="action" onclick="like(this)">
-        ❤️
-        <small>0</small>
-      </div>
+<div class="divider">OR</div>
 
-      <div class="action" onclick="openComments()">
-        💬
-        <small>0</small>
-      </div>
+<input id="email" type="email" placeholder="Email">
 
-      <div class="action" onclick="shareVideo()">
-        🔗
-        <small>Share</small>
-      </div>
+<input id="password" type="password" placeholder="Password">
 
-      <div class="action" onclick="saveVideo(this)">
-        🔖
-        <small>Save</small>
-      </div>
-    </div>
-  </div>
+<button class="email" onclick="emailLogin()">
+📧 Login / Create Account
+</button>
 
-
-  <div class="video-card">
-    <video class="video" loop muted playsinline
-      src="video2.mp4"></video>
-
-    <div class="info">
-      <div class="username">
-        @saqib_ali
-        <button class="follow-btn" onclick="follow(this)">Follow</button>
-      </div>
-      <div class="caption">Another short video 🎮</div>
-    </div>
-
-    <div class="actions">
-      <div class="profile-pic">👤</div>
-
-      <div class="action" onclick="like(this)">
-        ❤️
-        <small>0</small>
-      </div>
-
-      <div class="action" onclick="openComments()">
-        💬
-        <small>0</small>
-      </div>
-
-      <div class="action" onclick="shareVideo()">
-        🔗
-        <small>Share</small>
-      </div>
-
-      <div class="action" onclick="saveVideo(this)">
-        🔖
-        <small>Save</small>
-      </div>
-    </div>
-  </div>
-
-
-  <div class="video-card">
-    <video class="video" loop muted playsinline
-      src="video3.mp4"></video>
-
-    <div class="info">
-      <div class="username">
-        @saqib_ali
-        <button class="follow-btn" onclick="follow(this)">Follow</button>
-      </div>
-      <div class="caption">Welcome to Shorty 🚀</div>
-    </div>
-
-    <div class="actions">
-      <div class="profile-pic">👤</div>
-
-      <div class="action" onclick="like(this)">
-        ❤️
-        <small>0</small>
-      </div>
-
-      <div class="action" onclick="openComments()">
-        💬
-        <small>0</small>
-      </div>
-
-      <div class="action" onclick="shareVideo()">
-        🔗
-        <small>Share</small>
-      </div>
-
-      <div class="action" onclick="saveVideo(this)">
-        🔖
-        <small>Save</small>
-      </div>
-    </div>
-  </div>
+<p style="text-align:center;color:#aaa;margin-top:15px">
+Create your Shorty account
+</p>
 
 </div>
 
 
-<!-- BOTTOM NAV -->
-<div class="bottom">
+<!-- APP -->
+<div id="appScreen">
 
-  <div class="nav" onclick="closePanels()">
-    <div>🏠</div>
-    Home
-  </div>
+<div class="profile">
 
-  <div class="nav" onclick="openPanel('searchPanel')">
-    <div>🔍</div>
-    Search
-  </div>
+<div class="avatar">👤</div>
 
-  <div class="nav" onclick="openPanel('uploadPanel')">
-    <div class="upload">＋</div>
-    Upload
-  </div>
+<h2 id="username">@shorty_user</h2>
 
-  <div class="nav" onclick="openPanel('messagePanel')">
-    <div>💬</div>
-    Messages
-  </div>
+<p>Shorty Creator</p>
 
-  <div class="nav" onclick="openPanel('profilePanel')">
-    <div>👤</div>
-    Profile
-  </div>
+<div class="stats">
+
+<div class="stat">
+<b id="following">0</b><br>
+Following
+</div>
+
+<div class="stat">
+<b id="followers">0</b><br>
+Followers
+</div>
+
+<div class="stat">
+<b id="likes">0</b><br>
+Likes
+</div>
+
+</div>
+
+<button onclick="uploadVideo()">
+⬆️ Upload Video
+</button>
+
+<div class="message">
+🎬 Your videos will appear here
+</div>
+
+</div>
+
+<div class="nav">
+
+<div onclick="home()">🏠<br>Home</div>
+
+<div onclick="search()">🔍<br>Search</div>
+
+<div onclick="uploadVideo()">➕<br>Upload</div>
+
+<div onclick="messages()">💬<br>Messages</div>
+
+<div onclick="profile()">👤<br>Profile</div>
+
+</div>
+
+</div>
 
 </div>
 
 
-<!-- SEARCH -->
-<div class="panel" id="searchPanel">
-  <div class="close" onclick="closePanels()">✕</div>
-  <h2>Search</h2>
+<script type="module">
 
-  <input class="search-box"
-    placeholder="Search username or video..."
-    oninput="searchUser(this.value)">
+/*
+  IMPORTANT:
+  Firebase Web configuration will be added here
+  after we create the Web App in Firebase.
+*/
 
-  <div id="searchResult"></div>
-</div>
-
-
-<!-- COMMENTS -->
-<div class="panel" id="commentPanel">
-  <div class="close" onclick="closePanels()">✕</div>
-
-  <h2>Comments</h2>
-
-  <input id="commentInput"
-    class="comment-input"
-    placeholder="Write a comment...">
-
-  <button class="send-btn" onclick="addComment()">
-    Comment
-  </button>
-
-  <div id="comments">
-    <div class="comment">@Ali: Nice video 👍</div>
-  </div>
-</div>
+const firebaseConfig = {
+  apiKey: "PASTE_YOUR_API_KEY_HERE",
+  authDomain: "PASTE_YOUR_AUTH_DOMAIN_HERE",
+  projectId: "shorty-app-ddc31",
+  storageBucket: "PASTE_YOUR_STORAGE_BUCKET_HERE",
+  messagingSenderId: "PASTE_YOUR_MESSAGING_SENDER_ID_HERE",
+  appId: "PASTE_YOUR_APP_ID_HERE"
+};
 
 
-<!-- UPLOAD -->
-<div class="panel" id="uploadPanel">
-  <div class="close" onclick="closePanels()">✕</div>
+// Temporary buttons until Firebase config is connected
 
-  <h2>Upload Video</h2>
-
-  <div class="upload-area">
-    <p>📹 Select your video</p>
-    <br>
-
-    <input type="file"
-      id="videoFile"
-      accept="video/*"
-      onchange="previewVideo(this)">
-
-    <br><br>
-
-    <video id="preview"
-      controls
-      style="width:100%;display:none;border-radius:10px;">
-    </video>
-
-    <br>
-
-    <button class="send-btn"
-      onclick="uploadDemo()">
-      Upload Video
-    </button>
-  </div>
-
-  <p style="margin-top:15px;font-size:13px;color:#aaa;">
-    Upload UI prototype: selected video can be previewed.
-    Permanent multi-user video storage needs a backend/storage service.
-  </p>
-</div>
-
-
-<!-- MESSAGES -->
-<div class="panel" id="messagePanel">
-  <div class="close" onclick="closePanels()">✕</div>
-
-  <h2>Messages</h2>
-
-  <div class="comment">
-    👤 Ali
-    <br>
-    <small>Hello 👋</small>
-  </div>
-
-  <div class="comment">
-    👤 Ahmed
-    <br>
-    <small>Nice video!</small>
-  </div>
-
-  <br>
-
-  <input class="message-input"
-    id="messageInput"
-    placeholder="Write message...">
-
-  <button class="send-btn"
-    onclick="sendMessage()">
-    Send
-  </button>
-
-  <div id="messages"></div>
-</div>
-
-
-<!-- PROFILE -->
-<div class="panel" id="profilePanel">
-
-  <div class="close" onclick="closePanels()">✕</div>
-
-  <div class="profile">
-
-    <div class="big-profile">👤</div>
-
-    <h2 style="margin-top:15px;">
-      @saqib_ali
-    </h2>
-
-    <p>My Shorty Profile</p>
-
-    <div>
-      <span class="stat">
-        0<br>
-        Following
-      </span>
-
-      <span class="stat">
-        0<br>
-        Followers
-      </span>
-
-      <span class="stat">
-        0<br>
-        Likes
-      </span>
-    </div>
-
-    <br>
-
-    <button class="send-btn"
-      onclick="editProfile()">
-      Edit Profile
-    </button>
-
-  </div>
-</div>
-
-
-<div class="toast" id="toast"></div>
-
-</div>
-
-
-<script>
-
-function showToast(text){
-
-  let t=document.getElementById("toast");
-
-  t.innerText=text;
-  t.style.display="block";
-
-  setTimeout(()=>{
-    t.style.display="none";
-  },1800);
+window.googleLogin = function(){
+  alert("Google Login will work after Firebase Web configuration is added.");
 }
 
-
-function openPanel(id){
-
-  closePanels();
-
-  document.getElementById(id).style.display="block";
+window.phoneLogin = function(){
+  alert("Phone OTP will work after Firebase Web configuration is added.");
 }
 
+window.emailLogin = function(){
 
-function closePanels(){
+  const email=document.getElementById("email").value;
 
-  document.querySelectorAll(".panel")
-  .forEach(p=>p.style.display="none");
-}
+  const password=document.getElementById("password").value;
 
-
-function like(btn){
-
-  let count=btn.querySelector("small");
-
-  let number=parseInt(count.innerText);
-
-  if(btn.dataset.liked==="yes"){
-
-    number--;
-    btn.dataset.liked="no";
-    btn.style.opacity="1";
-
-  }else{
-
-    number++;
-    btn.dataset.liked="yes";
-    btn.style.opacity="0.7";
-
-  }
-
-  count.innerText=number;
-}
-
-
-function follow(btn){
-
-  if(btn.innerText==="Follow"){
-
-    btn.innerText="Following";
-    showToast("Following ✅");
-
-  }else{
-
-    btn.innerText="Follow";
-    showToast("Unfollowed");
-
-  }
-}
-
-
-function saveVideo(btn){
-
-  if(btn.dataset.saved==="yes"){
-
-    btn.dataset.saved="no";
-    btn.innerHTML="🔖<small>Save</small>";
-    showToast("Removed from saved");
-
-  }else{
-
-    btn.dataset.saved="yes";
-    btn.innerHTML="✅<small>Saved</small>";
-    showToast("Video saved ✅");
-
-  }
-}
-
-
-function shareVideo(){
-
-  if(navigator.share){
-
-    navigator.share({
-      title:"Shorty Video",
-      text:"Check this video!"
-    });
-
-  }else{
-
-    showToast("Share link copied!");
-
-  }
-}
-
-
-function openComments(){
-
-  openPanel("commentPanel");
-
-}
-
-
-function addComment(){
-
-  let input=document.getElementById("commentInput");
-
-  let text=input.value.trim();
-
-  if(text===""){
-
-    showToast("Write a comment first");
-
+  if(!email || !password){
+    alert("Please enter email and password.");
     return;
   }
 
-  let div=document.createElement("div");
-
-  div.className="comment";
-
-  div.innerText="@You: "+text;
-
-  document.getElementById("comments")
-  .appendChild(div);
-
-  input.value="";
-
-  showToast("Comment added ✅");
+  alert("Email login will work after Firebase is connected.");
 }
 
-
-function previewVideo(input){
-
-  let file=input.files[0];
-
-  if(!file)return;
-
-  let video=document.getElementById("preview");
-
-  video.src=URL.createObjectURL(file);
-
-  video.style.display="block";
-
+window.uploadVideo = function(){
+  alert("Video upload will be connected in the next step.");
 }
 
-
-function uploadDemo(){
-
-  let file=document.getElementById("videoFile").files[0];
-
-  if(!file){
-
-    showToast("Select a video first");
-
-    return;
-  }
-
-  showToast("Video selected successfully ✅");
-
+window.search = function(){
+  alert("Search will be added.");
 }
 
-
-function sendMessage(){
-
-  let input=document.getElementById("messageInput");
-
-  let text=input.value.trim();
-
-  if(text===""){
-
-    showToast("Write a message");
-
-    return;
-  }
-
-  let div=document.createElement("div");
-
-  div.className="comment";
-
-  div.innerText="You: "+text;
-
-  document.getElementById("messages")
-  .appendChild(div);
-
-  input.value="";
-
+window.messages = function(){
+  alert("Messages will be added.");
 }
 
-
-function searchUser(value){
-
-  let result=document.getElementById("searchResult");
-
-  if(value.trim()===""){
-
-    result.innerHTML="";
-
-    return;
-  }
-
-  result.innerHTML=
-  "<div class='comment'>👤 @saqib_ali<br><small>Shorty creator</small></div>"+
-  "<div class='comment'>🎬 Videos matching: "+value+"</div>";
-
+window.profile = function(){
+  alert("You are on your profile.");
 }
 
-
-function editProfile(){
-
-  let name=prompt(
-    "Enter your username:",
-    "saqib_ali"
-  );
-
-  if(name){
-
-    document.querySelectorAll(".username")
-    .forEach(x=>{
-
-      x.childNodes[0].textContent="@"+name+" ";
-
-    });
-
-    showToast("Profile updated ✅");
-
-  }
+window.home = function(){
+  alert("Home feed will be added.");
 }
-
-
-/* AUTO PLAY VISIBLE VIDEO */
-
-const videos=document.querySelectorAll(".video");
-
-const observer=new IntersectionObserver(
-(entries)=>{
-
-  entries.forEach(entry=>{
-
-    let video=entry.target;
-
-    if(entry.isIntersecting){
-
-      video.play().catch(()=>{});
-
-    }else{
-
-      video.pause();
-
-    }
-
-  });
-
-},
-{threshold:0.7}
-);
-
-videos.forEach(video=>observer.observe(video));
 
 </script>
 
