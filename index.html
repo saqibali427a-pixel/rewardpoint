@@ -13,180 +13,249 @@
   font-family:Arial,sans-serif;
 }
 
-html,body{
-  background:#000;
-  color:#fff;
-}
-
 body{
-  max-width:500px;
-  margin:auto;
-}
-
-.app{
   background:#000;
-  min-height:100vh;
-  padding-bottom:65px;
-}
-
-/* TOP */
-.top{
-  position:fixed;
-  top:0;
-  left:50%;
-  transform:translateX(-50%);
-  width:100%;
-  max-width:500px;
-  height:58px;
-  z-index:50;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  gap:16px;
-  background:linear-gradient(#000,transparent);
-}
-
-.top button{
-  border:0;
-  background:none;
-  color:#aaa;
-  font-size:15px;
-  font-weight:bold;
-}
-
-.top button.active{
   color:#fff;
-}
-
-.search{
-  position:absolute;
-  right:15px;
-  font-size:23px;
-}
-
-/* VIDEO */
-.video{
-  height:calc(100vh - 65px);
-  min-height:600px;
-  position:relative;
-  background:#111;
   overflow:hidden;
 }
 
-.video video{
+.app{
+  height:100vh;
+  width:100%;
+  max-width:500px;
+  margin:auto;
+  position:relative;
+  background:#111;
+}
+
+.top{
+  position:absolute;
+  top:0;
+  left:0;
+  right:0;
+  z-index:20;
+  display:flex;
+  justify-content:center;
+  gap:25px;
+  padding:18px 10px;
+  background:linear-gradient(#0009,transparent);
+}
+
+.top span{
+  font-size:16px;
+  font-weight:bold;
+}
+
+.active{
+  border-bottom:2px solid white;
+  padding-bottom:5px;
+}
+
+.feed{
+  height:100vh;
+  overflow-y:auto;
+  scroll-snap-type:y mandatory;
+}
+
+.video-card{
+  height:100vh;
+  position:relative;
+  scroll-snap-align:start;
+  background:#222;
+}
+
+.video{
   width:100%;
   height:100%;
   object-fit:cover;
 }
 
-.video:after{
-  content:"";
-  position:absolute;
-  inset:0;
-  background:linear-gradient(
-    transparent 55%,
-    rgba(0,0,0,.75)
-  );
-  pointer-events:none;
-}
-
-/* INFO */
 .info{
   position:absolute;
-  left:15px;
-  bottom:25px;
-  width:72%;
-  z-index:5;
-  text-shadow:0 1px 4px #000;
+  left:12px;
+  bottom:85px;
+  width:75%;
+  text-shadow:0 1px 3px #000;
 }
 
-.info h3{
-  font-size:16px;
-  margin-bottom:9px;
+.username{
+  font-size:18px;
+  font-weight:bold;
+  margin-bottom:8px;
 }
 
-.info p{
-  font-size:14px;
-  margin-top:5px;
+.caption{
+  font-size:15px;
 }
 
-/* ACTIONS */
+.follow-btn{
+  background:#ff0050;
+  color:white;
+  border:0;
+  border-radius:5px;
+  padding:5px 12px;
+  margin-left:7px;
+  font-weight:bold;
+}
+
 .actions{
   position:absolute;
-  right:12px;
-  bottom:45px;
-  z-index:10;
+  right:10px;
+  bottom:90px;
   display:flex;
   flex-direction:column;
-  gap:18px;
-  text-align:center;
+  align-items:center;
+  gap:17px;
 }
 
-.action button{
-  border:0;
-  background:none;
-  color:white;
-  font-size:27px;
+.action{
+  text-align:center;
   cursor:pointer;
+  font-size:27px;
 }
 
 .action small{
   display:block;
-  font-size:11px;
-  margin-top:2px;
+  font-size:12px;
+  margin-top:3px;
 }
 
-/* BOTTOM */
+.profile-pic{
+  width:48px;
+  height:48px;
+  border-radius:50%;
+  background:#555;
+  border:2px solid white;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:20px;
+}
+
 .bottom{
-  position:fixed;
+  position:absolute;
   bottom:0;
-  left:50%;
-  transform:translateX(-50%);
-  width:100%;
-  max-width:500px;
+  left:0;
+  right:0;
   height:65px;
-  z-index:100;
-  background:#080808;
-  border-top:1px solid #333;
+  z-index:30;
   display:flex;
   justify-content:space-around;
   align-items:center;
+  background:#080808;
 }
 
-.bottom button{
-  background:none;
-  border:0;
-  color:white;
-  font-size:11px;
+.nav{
+  text-align:center;
+  font-size:12px;
+  cursor:pointer;
 }
 
-.bottom b{
-  display:block;
-  font-size:22px;
+.nav div{
+  font-size:23px;
   margin-bottom:3px;
 }
 
-.plus{
-  font-size:26px!important;
-  background:white!important;
-  color:#000!important;
-  border-radius:10px;
-  padding:2px 13px;
+.upload{
+  background:white;
+  color:#000;
+  padding:5px 12px;
+  border-radius:8px;
+  font-size:24px;
 }
 
-/* MESSAGE */
+.panel{
+  display:none;
+  position:absolute;
+  inset:0;
+  z-index:50;
+  background:#111;
+  padding:70px 15px 80px;
+  overflow:auto;
+}
+
+.panel h2{
+  margin-bottom:20px;
+}
+
+.close{
+  position:absolute;
+  right:15px;
+  top:18px;
+  font-size:25px;
+  cursor:pointer;
+}
+
+.search-box,
+.comment-input,
+.message-input{
+  width:100%;
+  padding:13px;
+  border:0;
+  border-radius:8px;
+  margin-bottom:12px;
+}
+
+button{
+  cursor:pointer;
+}
+
+.send-btn{
+  padding:10px 18px;
+  border:0;
+  border-radius:8px;
+  background:#ff0050;
+  color:#fff;
+}
+
+.comment{
+  padding:12px;
+  border-bottom:1px solid #333;
+}
+
+.profile{
+  text-align:center;
+  padding-top:20px;
+}
+
+.big-profile{
+  width:90px;
+  height:90px;
+  border-radius:50%;
+  background:#444;
+  margin:auto;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:40px;
+}
+
+.stat{
+  display:inline-block;
+  margin:20px 10px;
+  font-weight:bold;
+}
+
+.upload-area{
+  border:2px dashed #777;
+  padding:35px 15px;
+  text-align:center;
+  border-radius:12px;
+  margin-top:20px;
+}
+
 .toast{
-  position:fixed;
+  position:absolute;
+  bottom:75px;
   left:50%;
-  bottom:80px;
   transform:translateX(-50%);
   background:#fff;
   color:#000;
   padding:10px 18px;
   border-radius:20px;
   display:none;
-  z-index:200;
-  font-size:13px;
+  z-index:100;
+  white-space:nowrap;
 }
 </style>
 </head>
@@ -195,214 +264,580 @@ body{
 
 <div class="app">
 
-  <!-- TOP -->
-  <div class="top">
-    <button onclick="showMessage('Following')">Following</button>
-    <button class="active">For You</button>
-    <button class="search" onclick="showMessage('Search coming soon 🔍')">🔍</button>
+<!-- TOP -->
+<div class="top">
+  <span>Following</span>
+  <span class="active">For You</span>
+  <span onclick="openPanel('searchPanel')">🔍</span>
+</div>
+
+<!-- VIDEO FEED -->
+<div class="feed" id="feed">
+
+  <div class="video-card">
+    <video class="video" loop muted playsinline
+      src="video1.mp4"></video>
+
+    <div class="info">
+      <div class="username">
+        @saqib_ali
+        <button class="follow-btn" onclick="follow(this)">Follow</button>
+      </div>
+      <div class="caption">My first video 🔥 #shorty</div>
+    </div>
+
+    <div class="actions">
+      <div class="profile-pic">👤</div>
+
+      <div class="action" onclick="like(this)">
+        ❤️
+        <small>0</small>
+      </div>
+
+      <div class="action" onclick="openComments()">
+        💬
+        <small>0</small>
+      </div>
+
+      <div class="action" onclick="shareVideo()">
+        🔗
+        <small>Share</small>
+      </div>
+
+      <div class="action" onclick="saveVideo(this)">
+        🔖
+        <small>Save</small>
+      </div>
+    </div>
   </div>
 
 
-  <!-- VIDEO 1 -->
-  <section class="video">
-    <video
-      src="https://cdn.pixabay.com/video/2020/05/24/40120-424876900_large.mp4"
-      autoplay
-      muted
-      loop
-      playsinline>
-    </video>
+  <div class="video-card">
+    <video class="video" loop muted playsinline
+      src="video2.mp4"></video>
 
     <div class="info">
-      <h3>@CartoonWorld</h3>
-      <p>😂 Funny short video</p>
-      <p>🎵 Original sound</p>
+      <div class="username">
+        @saqib_ali
+        <button class="follow-btn" onclick="follow(this)">Follow</button>
+      </div>
+      <div class="caption">Another short video 🎮</div>
     </div>
 
     <div class="actions">
-      <div class="action">
-        <button onclick="like(this)">❤️</button>
-        <small>1.2K</small>
+      <div class="profile-pic">👤</div>
+
+      <div class="action" onclick="like(this)">
+        ❤️
+        <small>0</small>
       </div>
 
-      <div class="action">
-        <button onclick="showMessage('Comments coming soon 💬')">💬</button>
-        <small>86</small>
+      <div class="action" onclick="openComments()">
+        💬
+        <small>0</small>
       </div>
 
-      <div class="action">
-        <button onclick="showMessage('Share button clicked ↗️')">↗️</button>
+      <div class="action" onclick="shareVideo()">
+        🔗
         <small>Share</small>
       </div>
 
-      <div class="action">
-        <button onclick="showMessage('Saved 🔖')">🔖</button>
+      <div class="action" onclick="saveVideo(this)">
+        🔖
         <small>Save</small>
       </div>
     </div>
-  </section>
+  </div>
 
 
-  <!-- VIDEO 2 -->
-  <section class="video">
-    <video
-      src="https://cdn.pixabay.com/video/2020/06/24/42825-435570630_large.mp4"
-      autoplay
-      muted
-      loop
-      playsinline>
-    </video>
+  <div class="video-card">
+    <video class="video" loop muted playsinline
+      src="video3.mp4"></video>
 
     <div class="info">
-      <h3>@FunVideos</h3>
-      <p>🎮 Gaming & fun</p>
-      <p>🎵 Original sound</p>
+      <div class="username">
+        @saqib_ali
+        <button class="follow-btn" onclick="follow(this)">Follow</button>
+      </div>
+      <div class="caption">Welcome to Shorty 🚀</div>
     </div>
 
     <div class="actions">
-      <div class="action">
-        <button onclick="like(this)">❤️</button>
-        <small>854</small>
+      <div class="profile-pic">👤</div>
+
+      <div class="action" onclick="like(this)">
+        ❤️
+        <small>0</small>
       </div>
 
-      <div class="action">
-        <button onclick="showMessage('Comments coming soon 💬')">💬</button>
-        <small>42</small>
+      <div class="action" onclick="openComments()">
+        💬
+        <small>0</small>
       </div>
 
-      <div class="action">
-        <button onclick="showMessage('Share button clicked ↗️')">↗️</button>
+      <div class="action" onclick="shareVideo()">
+        🔗
         <small>Share</small>
       </div>
 
-      <div class="action">
-        <button onclick="showMessage('Saved 🔖')">🔖</button>
+      <div class="action" onclick="saveVideo(this)">
+        🔖
         <small>Save</small>
       </div>
     </div>
-  </section>
-
-
-  <!-- VIDEO 3 -->
-  <section class="video">
-    <video
-      src="https://cdn.pixabay.com/video/2020/05/29/40375-425819564_large.mp4"
-      autoplay
-      muted
-      loop
-      playsinline>
-    </video>
-
-    <div class="info">
-      <h3>@KidsFun</h3>
-      <p>🥕 Funny cartoon adventure</p>
-      <p>🎵 Original sound</p>
-    </div>
-
-    <div class="actions">
-      <div class="action">
-        <button onclick="like(this)">❤️</button>
-        <small>2.4K</small>
-      </div>
-
-      <div class="action">
-        <button onclick="showMessage('Comments coming soon 💬')">💬</button>
-        <small>120</small>
-      </div>
-
-      <div class="action">
-        <button onclick="showMessage('Share button clicked ↗️')">↗️</button>
-        <small>Share</small>
-      </div>
-
-      <div class="action">
-        <button onclick="showMessage('Saved 🔖')">🔖</button>
-        <small>Save</small>
-      </div>
-    </div>
-  </section>
-
-
-  <!-- BOTTOM -->
-  <div class="bottom">
-
-    <button onclick="home()">
-      <b>⌂</b>
-      Home
-    </button>
-
-    <button onclick="showMessage('Search coming soon 🔍')">
-      <b>🔍</b>
-      Search
-    </button>
-
-    <button onclick="showMessage('Video Upload coming next 🎥')">
-      <b class="plus">＋</b>
-      Upload
-    </button>
-
-    <button onclick="showMessage('Messages coming next 💬')">
-      <b>💬</b>
-      Messages
-    </button>
-
-    <button onclick="showMessage('Profile coming next 👤')">
-      <b>👤</b>
-      Profile
-    </button>
-
   </div>
 
 </div>
 
+
+<!-- BOTTOM NAV -->
+<div class="bottom">
+
+  <div class="nav" onclick="closePanels()">
+    <div>🏠</div>
+    Home
+  </div>
+
+  <div class="nav" onclick="openPanel('searchPanel')">
+    <div>🔍</div>
+    Search
+  </div>
+
+  <div class="nav" onclick="openPanel('uploadPanel')">
+    <div class="upload">＋</div>
+    Upload
+  </div>
+
+  <div class="nav" onclick="openPanel('messagePanel')">
+    <div>💬</div>
+    Messages
+  </div>
+
+  <div class="nav" onclick="openPanel('profilePanel')">
+    <div>👤</div>
+    Profile
+  </div>
+
+</div>
+
+
+<!-- SEARCH -->
+<div class="panel" id="searchPanel">
+  <div class="close" onclick="closePanels()">✕</div>
+  <h2>Search</h2>
+
+  <input class="search-box"
+    placeholder="Search username or video..."
+    oninput="searchUser(this.value)">
+
+  <div id="searchResult"></div>
+</div>
+
+
+<!-- COMMENTS -->
+<div class="panel" id="commentPanel">
+  <div class="close" onclick="closePanels()">✕</div>
+
+  <h2>Comments</h2>
+
+  <input id="commentInput"
+    class="comment-input"
+    placeholder="Write a comment...">
+
+  <button class="send-btn" onclick="addComment()">
+    Comment
+  </button>
+
+  <div id="comments">
+    <div class="comment">@Ali: Nice video 👍</div>
+  </div>
+</div>
+
+
+<!-- UPLOAD -->
+<div class="panel" id="uploadPanel">
+  <div class="close" onclick="closePanels()">✕</div>
+
+  <h2>Upload Video</h2>
+
+  <div class="upload-area">
+    <p>📹 Select your video</p>
+    <br>
+
+    <input type="file"
+      id="videoFile"
+      accept="video/*"
+      onchange="previewVideo(this)">
+
+    <br><br>
+
+    <video id="preview"
+      controls
+      style="width:100%;display:none;border-radius:10px;">
+    </video>
+
+    <br>
+
+    <button class="send-btn"
+      onclick="uploadDemo()">
+      Upload Video
+    </button>
+  </div>
+
+  <p style="margin-top:15px;font-size:13px;color:#aaa;">
+    Upload UI prototype: selected video can be previewed.
+    Permanent multi-user video storage needs a backend/storage service.
+  </p>
+</div>
+
+
+<!-- MESSAGES -->
+<div class="panel" id="messagePanel">
+  <div class="close" onclick="closePanels()">✕</div>
+
+  <h2>Messages</h2>
+
+  <div class="comment">
+    👤 Ali
+    <br>
+    <small>Hello 👋</small>
+  </div>
+
+  <div class="comment">
+    👤 Ahmed
+    <br>
+    <small>Nice video!</small>
+  </div>
+
+  <br>
+
+  <input class="message-input"
+    id="messageInput"
+    placeholder="Write message...">
+
+  <button class="send-btn"
+    onclick="sendMessage()">
+    Send
+  </button>
+
+  <div id="messages"></div>
+</div>
+
+
+<!-- PROFILE -->
+<div class="panel" id="profilePanel">
+
+  <div class="close" onclick="closePanels()">✕</div>
+
+  <div class="profile">
+
+    <div class="big-profile">👤</div>
+
+    <h2 style="margin-top:15px;">
+      @saqib_ali
+    </h2>
+
+    <p>My Shorty Profile</p>
+
+    <div>
+      <span class="stat">
+        0<br>
+        Following
+      </span>
+
+      <span class="stat">
+        0<br>
+        Followers
+      </span>
+
+      <span class="stat">
+        0<br>
+        Likes
+      </span>
+    </div>
+
+    <br>
+
+    <button class="send-btn"
+      onclick="editProfile()">
+      Edit Profile
+    </button>
+
+  </div>
+</div>
+
+
 <div class="toast" id="toast"></div>
+
+</div>
+
 
 <script>
 
-function showMessage(text){
-  const toast=document.getElementById("toast");
-  toast.innerText=text;
-  toast.style.display="block";
+function showToast(text){
+
+  let t=document.getElementById("toast");
+
+  t.innerText=text;
+  t.style.display="block";
 
   setTimeout(()=>{
-    toast.style.display="none";
+    t.style.display="none";
   },1800);
 }
 
-function like(button){
-  if(button.innerText==="❤️"){
-    button.innerText="❤️";
-    showMessage("Liked ❤️");
+
+function openPanel(id){
+
+  closePanels();
+
+  document.getElementById(id).style.display="block";
+}
+
+
+function closePanels(){
+
+  document.querySelectorAll(".panel")
+  .forEach(p=>p.style.display="none");
+}
+
+
+function like(btn){
+
+  let count=btn.querySelector("small");
+
+  let number=parseInt(count.innerText);
+
+  if(btn.dataset.liked==="yes"){
+
+    number--;
+    btn.dataset.liked="no";
+    btn.style.opacity="1";
+
+  }else{
+
+    number++;
+    btn.dataset.liked="yes";
+    btn.style.opacity="0.7";
+
+  }
+
+  count.innerText=number;
+}
+
+
+function follow(btn){
+
+  if(btn.innerText==="Follow"){
+
+    btn.innerText="Following";
+    showToast("Following ✅");
+
+  }else{
+
+    btn.innerText="Follow";
+    showToast("Unfollowed");
+
   }
 }
 
-function home(){
-  window.scrollTo({
-    top:0,
-    behavior:"smooth"
-  });
+
+function saveVideo(btn){
+
+  if(btn.dataset.saved==="yes"){
+
+    btn.dataset.saved="no";
+    btn.innerHTML="🔖<small>Save</small>";
+    showToast("Removed from saved");
+
+  }else{
+
+    btn.dataset.saved="yes";
+    btn.innerHTML="✅<small>Saved</small>";
+    showToast("Video saved ✅");
+
+  }
 }
 
-/* Pause videos when they are not visible */
-const videos=document.querySelectorAll("video");
 
-const observer=new IntersectionObserver((entries)=>{
+function shareVideo(){
+
+  if(navigator.share){
+
+    navigator.share({
+      title:"Shorty Video",
+      text:"Check this video!"
+    });
+
+  }else{
+
+    showToast("Share link copied!");
+
+  }
+}
+
+
+function openComments(){
+
+  openPanel("commentPanel");
+
+}
+
+
+function addComment(){
+
+  let input=document.getElementById("commentInput");
+
+  let text=input.value.trim();
+
+  if(text===""){
+
+    showToast("Write a comment first");
+
+    return;
+  }
+
+  let div=document.createElement("div");
+
+  div.className="comment";
+
+  div.innerText="@You: "+text;
+
+  document.getElementById("comments")
+  .appendChild(div);
+
+  input.value="";
+
+  showToast("Comment added ✅");
+}
+
+
+function previewVideo(input){
+
+  let file=input.files[0];
+
+  if(!file)return;
+
+  let video=document.getElementById("preview");
+
+  video.src=URL.createObjectURL(file);
+
+  video.style.display="block";
+
+}
+
+
+function uploadDemo(){
+
+  let file=document.getElementById("videoFile").files[0];
+
+  if(!file){
+
+    showToast("Select a video first");
+
+    return;
+  }
+
+  showToast("Video selected successfully ✅");
+
+}
+
+
+function sendMessage(){
+
+  let input=document.getElementById("messageInput");
+
+  let text=input.value.trim();
+
+  if(text===""){
+
+    showToast("Write a message");
+
+    return;
+  }
+
+  let div=document.createElement("div");
+
+  div.className="comment";
+
+  div.innerText="You: "+text;
+
+  document.getElementById("messages")
+  .appendChild(div);
+
+  input.value="";
+
+}
+
+
+function searchUser(value){
+
+  let result=document.getElementById("searchResult");
+
+  if(value.trim()===""){
+
+    result.innerHTML="";
+
+    return;
+  }
+
+  result.innerHTML=
+  "<div class='comment'>👤 @saqib_ali<br><small>Shorty creator</small></div>"+
+  "<div class='comment'>🎬 Videos matching: "+value+"</div>";
+
+}
+
+
+function editProfile(){
+
+  let name=prompt(
+    "Enter your username:",
+    "saqib_ali"
+  );
+
+  if(name){
+
+    document.querySelectorAll(".username")
+    .forEach(x=>{
+
+      x.childNodes[0].textContent="@"+name+" ";
+
+    });
+
+    showToast("Profile updated ✅");
+
+  }
+}
+
+
+/* AUTO PLAY VISIBLE VIDEO */
+
+const videos=document.querySelectorAll(".video");
+
+const observer=new IntersectionObserver(
+(entries)=>{
+
   entries.forEach(entry=>{
-    const video=entry.target;
+
+    let video=entry.target;
 
     if(entry.isIntersecting){
-      video.play().catch(()=>{});
-    }else{
-      video.pause();
-    }
-  });
-},{
-  threshold:.6
-});
 
-videos.forEach(video=>{
-  observer.observe(video);
-});
+      video.play().catch(()=>{});
+
+    }else{
+
+      video.pause();
+
+    }
+
+  });
+
+},
+{threshold:0.7}
+);
+
+videos.forEach(video=>observer.observe(video));
 
 </script>
 
